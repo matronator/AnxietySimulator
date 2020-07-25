@@ -84,18 +84,13 @@ const config = {
         }
     },
     templates: {
-        watch: [`app/**/*.html`]
+        watch: [`*.html`]
     },
     manifest: {
         base: `${process.cwd()}/dist/`,
         path: `${process.cwd()}/dist/asset-manifest.json`,
         merge: true,
     }
-}
-
-/* Helpers */
-function capitalize(string) {
-    return string[0].toUpperCase() + string.slice(1)
 }
 
 /*
