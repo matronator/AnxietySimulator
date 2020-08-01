@@ -8,6 +8,7 @@
     "build": "gulp --production",
     "postbuild": "npm run report-js && npm run report-css && npm run report-lh",
     "serve": "php -S 127.0.0.1:8000",
+    "dev": "npm-run-all -p -l serve start",
     "lint-js": "eslint src/**/*.js --fix",
     "lint-css": "stylelint src/**/*.css --fix",
     "report-css": "stylelint src/**/*.css > dist/report/stylelint.txt || exit 0",
@@ -20,6 +21,7 @@
   "license": "ISC",
   "devDependencies": {
     "@babel/core": "^7.9.0",
+    "@babel/plugin-transform-classes": "^7.10.4",
     "@babel/preset-env": "^7.9.0",
     "@babel/register": "^7.9.0",
     "autoprefixer": "^9.7.5",
@@ -54,6 +56,7 @@
     "yargs": "^14.2.3"
   },
   "babel": {
+    "plugins": ["@babel/plugin-transform-classes"],
     "presets": [
       [
         "@babel/env",
@@ -413,17 +416,10 @@
     }
   },
   "dependencies": {
-    "@babel/polyfill": "^7.8.7",
-    "@ckeditor/ckeditor5-build-classic": "^12.4.0",
-    "@ckeditor/ckeditor5-ckfinder": "^11.0.5",
+    "@babel/polyfill": "^7.10.4",
     "autosize": "^4.0.2",
     "basiclightbox": "^5.0.3",
-    "choices.js": "^6.0.3",
-    "flatpickr": "^4.6.3",
     "normalize.css": "^8.0.1",
-    "opentype.js": "^1.1.0",
-    "regenerator-runtime": "^0.13.5",
-    "swiper": "^5.4.5",
-    "uikit": "^3.3.7"
+    "regenerator-runtime": "^0.13.7"
   }
 }

@@ -58,7 +58,7 @@ const config = {
     },
     css: {
         entry: `src/css/*.css`,
-        watch: [`src/css/**/*.css`],
+        watch: [`src/css/**/*.css`, `src/js/components/**/*.css`],
     },
     images: {
         entry: `src/images/**`,
@@ -105,7 +105,7 @@ async function serve() {
     await server.init({
         proxy: config.serverUrl,
         port: config.proxyPort,
-        open: true,
+        open: false,
         notify: false
     })
 }
