@@ -1,1 +1,1 @@
-import './components/rooms/menu/MenuRoom'
+import './components/ProgressBar/ProgressBar'

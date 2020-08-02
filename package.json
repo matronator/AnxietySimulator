@@ -20,30 +20,30 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@babel/core": "^7.9.0",
+    "@babel/core": "^7.11.0",
     "@babel/plugin-transform-classes": "^7.10.4",
-    "@babel/preset-env": "^7.9.0",
-    "@babel/register": "^7.9.0",
-    "autoprefixer": "^9.7.5",
+    "@babel/preset-env": "^7.11.0",
+    "@babel/register": "^7.10.5",
+    "autoprefixer": "^9.8.6",
     "babelify": "^10.0.0",
-    "browser-sync": "^2.26.7",
-    "browserify": "^16.5.0",
+    "browser-sync": "^2.26.12",
+    "browserify": "^16.5.1",
     "cssnano": "^4.1.10",
     "del": "^5.1.0",
     "dotenv": "^8.2.0",
-    "eslint": "^6.8.0",
+    "eslint": "^7.6.0",
     "gulp": "^4.0.2",
     "gulp-filenames": "^4.0.1",
-    "gulp-imagemin": "^6.2.0",
-    "gulp-noop": "^1.0.0",
+    "gulp-imagemin": "^7.1.0",
+    "gulp-noop": "^1.0.1",
     "gulp-postcss": "^8.0.0",
     "gulp-rev": "^9.0.0",
     "gulp-sourcemaps": "^2.6.5",
     "gulp-svg-sprite": "^1.5.0",
     "gulp-tap": "^2.0.0",
     "gulp-uglify": "^3.0.2",
-    "gulp-uglify-es": "^1.0.4",
-    "lighthouse": "^5.6.0",
+    "gulp-uglify-es": "^2.0.0",
+    "lighthouse": "^6.1.1",
     "postcss-calc": "^7.0.2",
     "postcss-custom-media": "^7.0.8",
     "postcss-custom-properties": "^9.1.1",
@@ -51,12 +51,14 @@
     "postcss-mixins": "^6.2.3",
     "postcss-nesting": "^7.0.1",
     "postcss-sass-color-functions": "^1.1.0",
-    "stylelint": "^11.1.1",
+    "stylelint": "^13.6.1",
     "vinyl-buffer": "^1.0.1",
-    "yargs": "^14.2.3"
+    "yargs": "^15.4.1"
   },
   "babel": {
-    "plugins": ["@babel/plugin-transform-classes"],
+    "plugins": [
+      "@babel/plugin-transform-classes"
+    ],
     "presets": [
       [
         "@babel/env",
@@ -420,6 +422,7 @@
     "autosize": "^4.0.2",
     "basiclightbox": "^5.0.3",
     "normalize.css": "^8.0.1",
-    "regenerator-runtime": "^0.13.7"
+    "regenerator-runtime": "^0.13.7",
+    "uikit": "^3.5.5"
   }
 }

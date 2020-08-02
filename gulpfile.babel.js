@@ -105,7 +105,7 @@ async function serve() {
     await server.init({
         proxy: config.serverUrl,
         port: config.proxyPort,
-        open: false,
+        open: true,
         notify: false
     })
 }
@@ -153,8 +153,6 @@ function icons() {
 function images() {
     return src(config.images.entry)
         .pipe(imagemin([
-            imagemin.jpegtran({ progressive: true }),
-            imagemin.optipng({ optimizationLevel: 5 }),
             imagemin.svgo({
                 plugins: [
                     { removeViewBox: true },
