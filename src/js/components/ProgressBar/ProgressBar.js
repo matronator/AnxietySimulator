@@ -1,22 +1,21 @@
 class ProgressBar extends HTMLElement {
+    static get observedAttributes() {
+        return ['min', 'max', 'value', 'fill']
+    }
     async connectedCallback() {
         const res = await fetch(`src/js/components/ProgressBar/ProgressBar.html`)
 
-        this.attachShadow({ mode: `open` }).innerHTML = await res.text()
-        this.progressBar = this.shadowRoot.getElementById(`focusBar`)
-        this.progressBarFill = this.progressBar.querySelector(`.progress-bar-fill`)
-        this.progressMax = Number(this.progressBar.dataset.barMax)
-        window.setInterval(() => {
-            this.updateFill(1)
-        }, 420)
+        this.shadow = this.attachShadow({ mode: `open` })
+        this.shadow.innerHTML = await res.text()
     }
     updateFill(num) {
-        let barFill = Number(this.progressBar.dataset.barValue)
+        let barFill = parseFloat(this.getAttribute(`fill`))
         barFill += num
-        const newBarFill = Math.round(((barFill) / (Number(this.progressMax))) * 100)
-        this.progressBar.dataset.barValue = newBarFill
+        const newBarFill = Number(((barFill) / (Number(this.getAttribute(`max`)))) * 100).toFixed(3)
+        this.setAttribute(`value`, barFill)
+        this.setAttribute(`fill`, barFill)
         this.progressBar.dataset.barFill = newBarFill
-        this.progressBarFill.setAttribute(`style`, `width: ${newBarFill}%;`)
+        this.progressBarFill.setAttribute(`style`, `width: ${barFill}%;`)
     }
 }
 customElements.define(`progress-bar`, ProgressBar)
