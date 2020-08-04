@@ -5,46 +5,25 @@ fetch(`src/js/components/ProgressBar/ProgressBar.html`)
 function define(html) {
     class CustomProgress extends HTMLElement {
         static get observedAttributes() {
-            return ['max', 'value', 'fill']
-        }
-        set value(value) {
-            this._value = parseFloat(value)
-            this._fill = parseFloat(value) / this._max * 100
-        }
-        get value() {
-            return parseFloat(this._value)
-        }
-        set max(max) {
-            this._max = max
-        }
-        get max() {
-            return parseFloat(this._max)
-        }
-        set fill(fill) {
-            this._fill = fill
-            const bar = this.shadow.querySelector(`.progress-bar-fill`)
-            if (bar) {
-                bar.setAttribute(`style`, `width: ${this._fill}%`)
-            }
-        }
-        get fill() {
-            return parseFloat(this._fill)
+            return ['max', 'value']
         }
         constructor() {
             super()
             const shadow = this.attachShadow({ mode: `open` })
             shadow.innerHTML = html
             this.shadow = shadow
-            this.max = 100
-            this.fill = 50
+            this.max = this.hasAttribute(`max`) ? this.getAttribute(`max`) : 100
+            this.value = this.hasAttribute(`value`) ? this.getAttribute(`value`) : 0
+            this.fill = this.value / this.max * 100
         }
         attributeChangedCallback(name, oldValue, newValue) {
+            const bar = this.shadow.querySelector(`.progress-bar-fill`)
             if (name === `value` && oldValue !== newValue) {
                 this.value = parseFloat(newValue)
-                const bar = this.shadow.querySelector(`.progress-bar-fill`)
-                if (bar) {
-                    bar.setAttribute(`style`, `width: ${this.fill}%`)
-                }
+                bar.setAttribute(`style`, `width: ${this.value / this.max * 100}%;`)
+            } else if (name === `max` && oldValue !== newValue) {
+                this.max = parseFloat(newValue)
+                bar.setAttribute(`style`, `width: ${this.value / this.max * 100}%;`)
             }
         }
     }
