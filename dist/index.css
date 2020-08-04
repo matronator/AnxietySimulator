@@ -12436,8 +12436,6 @@ iframe.uk-cover {
 }
 :host {
   display: block;
-}
-.progress-bar {
   position: relative;
   width: 100%;
   height: 16px;
@@ -12450,4 +12448,7 @@ iframe.uk-cover {
   height: 100%;
   background: #fc0;
   transition: all 250ms ease;
+}
+:host([hidden]) {
+  display: none;
 }
