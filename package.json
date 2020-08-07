@@ -20,14 +20,14 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@babel/core": "^7.11.0",
+    "@babel/core": "^7.11.1",
     "@babel/plugin-transform-classes": "^7.10.4",
     "@babel/preset-env": "^7.11.0",
     "@babel/register": "^7.10.5",
     "autoprefixer": "^9.8.6",
     "babelify": "^10.0.0",
     "browser-sync": "^2.26.12",
-    "browserify": "^16.5.1",
+    "browserify": "^16.5.2",
     "cssnano": "^4.1.10",
     "del": "^5.1.0",
     "dotenv": "^8.2.0",
@@ -76,6 +76,14 @@
   },
   "eslintConfig": {
     "extends": "eslint:recommended",
+    "globals": {
+      "WEBGL_RENDERER": true,
+      "CANVAS_RENDERER": true,
+      "Phaser": true,
+      "process": true,
+      "ActiveXObject": true,
+      "FBInstant": true
+    },
     "parserOptions": {
       "ecmaVersion": 2018,
       "sourceType": "module",
@@ -422,6 +430,7 @@
     "autosize": "^4.0.2",
     "basiclightbox": "^5.0.3",
     "normalize.css": "^8.0.1",
+    "phaser": "^3.20.1",
     "regenerator-runtime": "^0.13.7",
     "uikit": "^3.5.5"
   }

@@ -12434,21 +12434,3 @@ iframe.uk-cover {
     page-break-after: avoid;
   }
 }
-:host {
-  display: block;
-  position: relative;
-  width: 100%;
-  height: 16px;
-  background-color: #888;
-  border: 1px solid #ccc;
-  overflow: hidden;
-}
-.progress-bar-fill {
-  position: relative;
-  height: 100%;
-  background: #fc0;
-  transition: all 250ms ease;
-}
-:host([hidden]) {
-  display: none;
-}
