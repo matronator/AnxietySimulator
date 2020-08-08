@@ -13,7 +13,7 @@ class FocusBar {
 
         scene.add.existing(this.bar)
         scene.add.image(this.x, this.y + (this.height / 2) + 5, image)
-        this.label = scene.add.text(this.x, this.y + this.height + 32, `Productivity: ${this.productivity}`, { align: 'center' }).setOrigin(0.5)
+        this.label = scene.add.text(this.x, this.y + this.height + 32, `Productivity: ${this.productivity}%`, { align: 'center' }).setOrigin(0.5)
 
         this.draw()
     }
@@ -60,7 +60,7 @@ class FocusBar {
         this.bar.lineBetween(this.x - (d2 / 2), this.y - 24, this.x - (d2 / 2), this.y + this.height + 24)
         this.bar.lineStyle(1, 0xdd0000)
         this.bar.lineBetween(this.x - (d2 / 2), this.y - 12, this.x - (d2 / 2), this.y + this.height + 12)
-        this.label.text = `Productivity: ${this.productivity.toFixed(3)}`
+        this.label.text = `Productivity: ${Math.round(this.productivity)}%`
     }
 }
 
