@@ -16,8 +16,15 @@ const game = new Phaser.Game(config)
 let fb
 let acceleration = 0
 let velocity = 0
-let drag = 0.87
 let focus = 0
+let momentum = 0
+let label
+let devText = [
+    `Focus: ${focus}`,
+    `Acceleration: ${acceleration}`,
+    `Velocity: ${velocity}`,
+    `Momentum: ${momentum}`
+]
 
 let keyQ
 let keyE
@@ -27,44 +34,54 @@ function preload() {
 }
 
 function create() {
-    fb = new FocusBar(this, 0, 100, game.scale.width, 58, 'bar')
+    fb = new FocusBar(this, game.scale.width / 2, 100, 750, 58, 'bar')
     fb.value = focus
+    label = this.add.text(0, game.scale.height, devText, { align: 'left' }).setOrigin(0, 1)
     keyQ = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Q)
     keyE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.E)
 }
 
 function update() {
     if (keyQ.isDown) {
-        acceleration -= 0.02
+        if (acceleration < 0) {
+            acceleration -= 0.005
+        } else {
+            momentum = acceleration
+            acceleration = -0.02
+        }
     } else if (keyE.isDown) {
-        acceleration += 0.02
+        if (acceleration > 0) {
+            acceleration += 0.005
+        } else {
+            momentum = acceleration
+            acceleration = 0.02
+        }
     }
     updateFocus()
 }
 
-let momentum = 0
-
 function updateFocus() {
-    if (acceleration < -0.5) {
-        acceleration = -0.5
+    if (acceleration < -0.4) {
+        acceleration = -0.4
     } else if (acceleration > 0.4) {
         acceleration = 0.4
     }
     velocity += acceleration
-    velocity *= drag
     if (velocity < -2) {
         velocity = -2
     } else if (velocity > 2) {
         velocity = 2
-    }
-    if (focus < 0) {
-        momentum = velocity + (-0.5 + Math.abs(focus / 50))
-    } else {
-        momentum = velocity + (0.5 - (focus / 50))
     }
     if (velocity >= 0) {
         focus = fb.more(Math.abs(velocity))
     } else {
         focus = fb.less(Math.abs(velocity))
     }
+    devText = [
+        `Focus: ${focus.toFixed(4)}`,
+        `Acceleration: ${acceleration.toFixed(4)}`,
+        `Velocity: ${velocity.toFixed(4)}`,
+        `Momentum: ${momentum.toFixed(4)}`
+    ]
+    label.setText(devText)
 }
