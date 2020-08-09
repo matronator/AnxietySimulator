@@ -22,12 +22,13 @@ class BaseScene extends Phaser.Scene {
             `AccGain: ${this.accGain.toFixed(4)}`
         ]
 
-        this.time = {
+        this.timeClock = {
             h: 9,
             m: 0
         }
         this.clock
-        this.clockText = `${this.time.h}:${this.time.m <= 9 ? '0' : ''}${this.time.m}`
+        this.clockText = `${this.timeClock.h}:${this.timeClock.m <= 9 ? '0' : ''}${this.timeClock.m}`
+        this.gameTime
 
         this.keyQ
         this.keyE
@@ -44,6 +45,12 @@ class BaseScene extends Phaser.Scene {
         this.clock = this.add.text(this.scale.width, 0, this.clockText, { align: 'right', fontSize: 32 }).setOrigin(1, 0)
         this.keyQ = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Q)
         this.keyE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.E)
+        this.gameTime = this.time.addEvent({
+            delay: 1000,
+            callback: this.tick,
+            callbackScope: this,
+            loop: true
+        })
     }
 
     update() {
@@ -62,6 +69,17 @@ class BaseScene extends Phaser.Scene {
         }
         this.updateFocus()
         this.updateDevTools()
+    }
+
+    tick() {
+        if (this.timeClock.m < 59) {
+            this.timeClock.m++
+        } else {
+            this.timeClock.h++
+            this.timeClock.m = 0
+        }
+        this.clockText = `${this.timeClock.h}:${this.timeClock.m <= 9 ? '0' : ''}${this.timeClock.m}`
+        this.clock.setText(this.clockText)
     }
 
     updateFocus() {

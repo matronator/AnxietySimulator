@@ -54,6 +54,7 @@ class FocusBar {
         const d = Math.floor(this.p * (this.value + 50))
         const d2 = Math.floor(this.p2 * this.value)
         // this.bar.fillRect(this.x + 2, this.y + 2, d, this.height - 4)
+        this.bar.fillRect(this.x - 32, this.y + 2, 68, this.height - 4)
         this.bar.fillRect(this.x - (d2 / 2), this.y + 2, d2 / 2, this.height - 4)
 
         this.bar.lineStyle(7, 0xbbbbbb)
