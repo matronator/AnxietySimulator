@@ -1,4 +1,5 @@
 import FocusBar from './../components/FocusBar'
+import ProgressBar from './../components/ProgressBar'
 
 class BaseScene extends Phaser.Scene {
     constructor(config) {
@@ -22,6 +23,11 @@ class BaseScene extends Phaser.Scene {
             `AccGain: ${this.accGain.toFixed(4)}`
         ]
 
+        this.workProgress = 0
+        this.workBar
+        this.workTimer
+        this.workDelay = 175
+
         this.timeClock = {
             h: 9,
             m: 0
@@ -40,6 +46,8 @@ class BaseScene extends Phaser.Scene {
 
     create() {
         this.fb = new FocusBar(this, this.scale.width / 2, 100, 750, 58, 'bar')
+        this.workBar = new ProgressBar(this, 4, 4, 200, 16)
+        this.workBar.value = this.workProgress
         this.fb.value = this.focus
         this.label = this.add.text(0, this.scale.height, this.devText, { align: 'left' }).setOrigin(0, 1)
         this.clock = this.add.text(this.scale.width, 0, this.clockText, { align: 'right', fontSize: 32 }).setOrigin(1, 0)
@@ -48,6 +56,12 @@ class BaseScene extends Phaser.Scene {
         this.gameTime = this.time.addEvent({
             delay: 1000,
             callback: this.tick,
+            callbackScope: this,
+            loop: true
+        })
+        this.workTimer = this.time.addEvent({
+            delay: this.workDelay,
+            callback: this.workAdd,
             callbackScope: this,
             loop: true
         })
@@ -82,6 +96,11 @@ class BaseScene extends Phaser.Scene {
         this.clock.setText(this.clockText)
     }
 
+    workAdd() {
+        this.workBar.more(0.1 + (0.1 / 100 * this.fb.productivity))
+        this.workProgress = this.workBar.value
+    }
+
     updateFocus() {
         if (this.acceleration < -0.4) {
             this.acceleration = -0.4
@@ -102,10 +121,14 @@ class BaseScene extends Phaser.Scene {
         }
         this.velomax = 2 - (Math.abs(this.focus * 2) / 50)
         this.accGain = 0.015 - (Math.abs(this.focus * 2) / 10000)
+        this.workTimer.timeScale = this.fb.productivity / 100
     }
 
     updateDevTools() {
         this.devText = [
+            `Work: ${this.workProgress.toFixed(2)}%`,
+            `Work delay: ${this.workTimer.timeScale.toFixed(3)}`,
+            ``,
             `Focus: ${this.focus.toFixed(4)}`,
             `Acceleration: ${this.acceleration.toFixed(4)}`,
             `Velocity: ${this.velocity.toFixed(4)}`,
