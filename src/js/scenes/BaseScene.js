@@ -2,6 +2,7 @@ import FocusBar from './../components/FocusBar'
 import ProgressMeter from './../components/ProgressMeter'
 import AnxietyBar from './../components/AnxietyBar'
 import Clock from './../components/Clock'
+import Talk from './../components/TalkAction'
 
 class BaseScene extends Phaser.Scene {
     constructor(config) {
@@ -77,6 +78,7 @@ class BaseScene extends Phaser.Scene {
         })
         this.anxBar = new AnxietyBar(this, 4, 24, 100, 16)
         this.anxBar.updateValue(this.anxiety)
+        this.talk = new Talk(this, this.scale.width / 2, this.scale.height - 50, 1, 3, 1000)
     }
 
     update() {
