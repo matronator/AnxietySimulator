@@ -1,4 +1,4 @@
-class ProgressBar {
+class ProgressMeter {
     constructor(scene, x, y, width, height) {
         this.bar = new Phaser.GameObjects.Graphics(scene)
 
@@ -8,11 +8,20 @@ class ProgressBar {
         this.height = height
         this.value = 0
         this.p = (this.width - 4) / 100
+        this.scene = scene
+
+        this.label
+        this.text = 'Progress:'
 
         scene.add.existing(this.bar)
-        this.label = scene.add.text(this.x, this.y + this.height + 3, `Progress: ${this.value}%`, { align: 'left' }).setOrigin(0, 0)
+
+        this.createLabel()
 
         this.draw()
+    }
+
+    createLabel() {
+        this.label = this.scene.add.text(this.x, this.y - this.height - 3, `${this.text} ${this.value}%`, { align: 'left' }).setOrigin(0, 0)
     }
 
     less(amount) {
@@ -27,7 +36,10 @@ class ProgressBar {
         return this.updateValue()
     }
 
-    updateValue() {
+    updateValue(val = null) {
+        if (val !== null) {
+            this.value = val
+        }
         if (this.value > 100) {
             this.value = 100
         } else if (this.value < 0) {
@@ -49,8 +61,8 @@ class ProgressBar {
 
         const d = Math.floor(this.p * this.value)
         this.bar.fillRect(this.x + 2, this.y + 2, d, this.height - 4)
-        this.label.text = `Progress: ${Math.round(this.value)}%`
+        this.label.text = `${this.text} ${Math.round(this.value)}%`
     }
 }
 
-export default ProgressBar
+export default ProgressMeter

@@ -14,7 +14,7 @@ class MenuScene extends Phaser.Scene {
         this.add.existing(logo)
         this.add.existing(playBtn)
         playBtn.on(`pointerdown`, () => {
-            this.scene.start(`Tutorial`)
+            this.scene.start(`Level1`)
         })
         playBtn.on(`pointerover`, () => {
             playBtn.setTint(0xffff00)
