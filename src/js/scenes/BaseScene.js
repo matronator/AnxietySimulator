@@ -17,7 +17,7 @@ class BaseScene extends Phaser.Scene {
         this.acceleration = -0.002
         this.velocity = 0
         this.focus = 0
-        this.constantVelo = -0.02
+        this.constantVelo = 0
         this.label
         this.devText = [
             `Focus: ${this.focus.toFixed(4)}`,
@@ -46,10 +46,15 @@ class BaseScene extends Phaser.Scene {
 
         this.keyQ
         this.keyE
+
+        this.cteTimer
+        this.cteTarget
+        this.cteBar
     }
 
     preload() {
         this.load.image('bar', 'src/images/bar.png')
+        this.load.image('target', 'src/images/target.png')
     }
 
     create() {
@@ -78,8 +83,43 @@ class BaseScene extends Phaser.Scene {
         })
         this.anxBar = new AnxietyBar(this, 4, 24, 100, 16)
         this.anxBar.updateValue(this.anxiety)
-        this.talk = new Talk(this, this.scale.width / 2, this.scale.height - 50, 1, 3, 1000)
+
+        let say = new Talk(this, this.scale.width / 2, this.scale.height / 2, 1, 3, 500)
+
+        // this.cteTimer = this.time.addEvent({
+        //     delay: 1000,
+        //     callback: this.clickTimeEvent,
+        //     callbackScope: this,
+        //     loop: false
+        // })
     }
+
+    // clickTimeEvent() {
+    //     this.cteTarget = new Phaser.GameObjects.Image(this, 300 + (Math.random() * (this.scale.width - 600)), 200 + (Math.random() * (this.scale.height - 400)), 'target').setOrigin(0.5, 0.5)
+    //     this.cteTarget.setInteractive()
+    //     this.cteBar = new ProgressMeter(this, this.cteTarget.x - 50, this.cteTarget.y + (this.cteTarget.height / 2) + 20, 100, 10, true)
+    //     this.cteBar.clearLabel()
+    //     this.add.existing(this.cteTarget)
+    //     this.cteTimer.remove(false)
+    //     this.cteTimer = this.time.addEvent({
+    //         delay: 500,
+    //         callback: this.clickTimeDone,
+    //         callbackScope: this,
+    //         loop: false
+    //     })
+    // }
+
+    // clickTimeDone() {
+    //     this.cteTarget.setVisible(0)
+    //     this.cteBar.remove()
+    //     this.cteTimer.remove(false)
+    //     this.cteTimer = this.time.addEvent({
+    //         delay: 5000,
+    //         callback: this.clickTimeEvent,
+    //         callbackScope: this,
+    //         loop: false
+    //     })
+    // }
 
     update() {
         // if (this.constantVelo < 0) {
@@ -90,6 +130,14 @@ class BaseScene extends Phaser.Scene {
         this.checkInputs()
         this.updateFocus()
         this.updateDevTools()
+    }
+
+    talkingDone(anx) {
+        if (anx >= 0) {
+            this.anxiety = this.anxBar.more(anx)
+        } else {
+            this.anxiety = this.anxBar.less(-anx)
+        }
     }
 
     checkInputs() {

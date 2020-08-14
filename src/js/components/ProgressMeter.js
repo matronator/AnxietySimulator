@@ -1,5 +1,5 @@
 class ProgressMeter {
-    constructor(scene, x, y, width, height) {
+    constructor(scene, x, y, width, height, noText = false) {
         this.bar = new Phaser.GameObjects.Graphics(scene)
 
         this.x = x
@@ -9,13 +9,17 @@ class ProgressMeter {
         this.value = 0
         this.p = (this.width - 4) / 100
         this.scene = scene
+        this.noText = noText
+        this.max = 100
 
         this.label
         this.text = 'Progress:'
 
         scene.add.existing(this.bar)
 
-        this.createLabel()
+        if (!noText) {
+            this.createLabel()
+        }
 
         this.draw()
     }
@@ -24,10 +28,24 @@ class ProgressMeter {
         this.label = this.scene.add.text(this.x, this.y - this.height - 3, `${this.text} ${this.value}%`, { align: 'left' }).setOrigin(0, 0)
     }
 
+    newMax(val) {
+        this.p = (this.width - 4) / val
+        this.value = val
+        this.max = val
+        this.draw()
+    }
+
     less(amount) {
         this.value -= amount
 
         return this.updateValue()
+    }
+
+    clearLabel() {
+        this.text = ``
+        this.noText = true
+        this.label = null
+        this.draw()
     }
 
     more(amount) {
@@ -40,8 +58,8 @@ class ProgressMeter {
         if (val !== null) {
             this.value = val
         }
-        if (this.value > 100) {
-            this.value = 100
+        if (this.value > this.max) {
+            this.value = this.max
         } else if (this.value < 0) {
             this.value = 0
         }
@@ -61,7 +79,15 @@ class ProgressMeter {
 
         const d = Math.floor(this.p * this.value)
         this.bar.fillRect(this.x + 2, this.y + 2, d, this.height - 4)
-        this.label.text = `${this.text} ${Math.round(this.value)}%`
+
+        if (!this.noText) {
+            this.label.text = `${this.text} ${Math.round(this.value)}%`
+        }
+    }
+
+    remove() {
+        this.bar.clear()
+        return
     }
 }
 
