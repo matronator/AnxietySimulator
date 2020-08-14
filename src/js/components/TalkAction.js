@@ -10,7 +10,7 @@ class Word extends Phaser.GameObjects.GameObject {
         this.trigLbl = trig
         this.trig = scene.input.keyboard.addKey(trig)
         this.life = decay / 5
-        this.gfx = new ProgressMeter(this.scene, this.x - 50, this.y + 32, 100, 10, true)
+        this.gfx = new ProgressMeter(this.scene, this.x - 25, this.y + 32, 50, 10, true)
         this.gfx.newMax(this.life)
         this.lbl = this.scene.add.text(this.x, this.y, this.trigLbl, { align: 'center', fontSize: 32 }).setOrigin(0.5, 0.5)
         scene.add.existing(this)
@@ -58,6 +58,36 @@ class Talk {
         this.successHits = 0
         this.triggerKeys = ['A', 'S', 'D', 'F']
         this.letters = []
+
+        this.conversationStart = [
+            `Hey! What's up bro?`,
+            `This project is going to be the end of me!`,
+            `Everything okay? You seem a little twitchy today.`,
+            `Hey man, how you doing today? All good?`,
+            `Hi, how are you?`
+        ]
+        this.answerGood = [
+            `Sup`,
+            `Yeah, I know right? Ugh!`,
+            `Yeah, just a little nervous before deadline. Thanks for asking!`,
+            `So far so good. How about you?`,
+            `Hi!`
+        ]
+        this.answerNeutral = [
+            `Hey! Not much.`,
+            `Is it really though?`,
+            `Me? Sure, why wouldn't I be?`,
+            `All good in the neighborhood!`,
+            `Pretty good.`
+        ]
+        this.answerBad = [
+            `What. What's up? Up where?`,
+            `I also ended one time. Just end project. What? Uhm...`,
+            `What? No! ME?? No way! You're twitchy!`,
+            `Hi, yeah! Good weather, what about yours?`,
+            `Hello, thanks, you too!`
+        ]
+
         if (difficulty >= 2) {
             this.triggerKeys.push('J', 'K', 'L')
         }
@@ -66,7 +96,7 @@ class Talk {
         }
 
         this.timer = scene.time.addEvent({
-            delay: speed,
+            delay: speed + 2000,
             callback: this.say,
             callbackScope: this,
             loop: false
@@ -75,7 +105,7 @@ class Talk {
 
     say() {
         const letter = this.shuffle(this.triggerKeys).pop()
-        this.letters[letter] = new Word(this.scene, this.x + (this.round * 20), this.y + (this.round * 20), letter, this, this.speed, letter)
+        this.letters[letter] = new Word(this.scene, this.x + 67 + (67 * (this.round % 2)), this.y + (67 * (this.round + 1)), letter, this, this.speed, letter)
         this.round++
         this.timer.remove(false)
         if (this.round <= this.count) {
@@ -103,18 +133,18 @@ class Talk {
     speak() {
         const finalScore = {
             hits: this.successHits,
-            hitsMax: this.count,
+            hitsMax: this.count + 1,
             score: this.score,
             scoreMax: this.scoreMax,
             speed: this.speed
         }
         const successRate = 100 / finalScore.hitsMax * finalScore.hits
         if (successRate > 70) {
-            this.scene.talkingDone(-10)
+            this.scene.talkingDone(-10, successRate)
         } else if (successRate > 50) {
-            this.scene.talkingDone(0)
+            this.scene.talkingDone(0, successRate)
         } else {
-            this.scene.talkingDone((50 - successRate) / 2)
+            this.scene.talkingDone((50 - successRate) / 2, successRate)
         }
         return
     }

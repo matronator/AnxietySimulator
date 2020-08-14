@@ -50,11 +50,16 @@ class BaseScene extends Phaser.Scene {
         this.cteTimer
         this.cteTarget
         this.cteBar
+
+        this.talkHud
+        this.tteTimer
+        this.tteSuccess
     }
 
     preload() {
         this.load.image('bar', 'src/images/bar.png')
         this.load.image('target', 'src/images/target.png')
+        this.load.image('talk', 'src/images/talk.png')
     }
 
     create() {
@@ -84,7 +89,8 @@ class BaseScene extends Phaser.Scene {
         this.anxBar = new AnxietyBar(this, 4, 24, 100, 16)
         this.anxBar.updateValue(this.anxiety)
 
-        let say = new Talk(this, this.scale.width / 2, this.scale.height / 2, 1, 3, 500)
+        this.talkHud = this.add.image(0, (this.scale.height / 2) - 163, 'talk').setOrigin(0, 0)
+        this.tteTimer = new Talk(this, this.talkHud.x, this.talkHud.y, 1, 3, 500)
 
         // this.cteTimer = this.time.addEvent({
         //     delay: 1000,
@@ -132,12 +138,16 @@ class BaseScene extends Phaser.Scene {
         this.updateDevTools()
     }
 
-    talkingDone(anx) {
+    talkingDone(anx, success) {
         if (anx >= 0) {
             this.anxiety = this.anxBar.more(anx)
         } else {
             this.anxiety = this.anxBar.less(-anx)
         }
+        this.tteSuccess = this.add.text(this.talkHud.width, this.talkHud.y + 201, `${success}%`, { fontSize: 32, align: 'left' })
+        this.time.delayedCall(2000, () => {
+            this.tteSuccess.setVisible(0)
+        }, [], this)
     }
 
     checkInputs() {
@@ -220,16 +230,13 @@ class BaseScene extends Phaser.Scene {
 
     updateDevTools() {
         this.devText = [
-            `Work: ${this.workProgress.toFixed(2)}%`,
             `Work delay: ${this.workTimer.timeScale.toFixed(3)}`,
-            ``,
-            `Constant: ${this.constantVelo.toFixed(3)}`,
-            `Focus: ${this.focus.toFixed(4)}`,
             `Acceleration: ${this.acceleration.toFixed(4)}`,
             `Velocity: ${this.velocity.toFixed(4)}`,
             `VeloMax: ${this.velomax.toFixed(4)}`,
             `AccGain: ${this.accGain.toFixed(4)}`
         ]
+        this.label.setAlpha(0.3)
         this.label.setText(this.devText)
     }
 }

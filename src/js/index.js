@@ -5,8 +5,12 @@ import Tutorial from './scenes/Tutorial'
 
 const config = {
     type: Phaser.AUTO,
-    width: window.innerWidth,
-    height: window.innerHeight,
+    width: 1920,
+    height: 1280,
+    scale: {
+        mode: Phaser.Scale.RESIZE,
+        autoCenter: Phaser.Scale.CENTER_HORIZONTALLY
+    },
     scene: [MenuScene, Tutorial, Level1]
 }
 
