@@ -53,6 +53,7 @@ class BaseScene extends Phaser.Scene {
 
         this.talkHud
         this.tteTimer
+        this.tte
         this.tteSuccess
     }
 
@@ -60,11 +61,12 @@ class BaseScene extends Phaser.Scene {
         this.load.image('bar', 'src/images/bar.png')
         this.load.image('target', 'src/images/target.png')
         this.load.image('talk', 'src/images/talk.png')
+        this.load.image('talk-warn', 'src/images/talk-danger.png')
     }
 
     create() {
         this.fb = new FocusBar(this, this.scale.width / 2, 100, 750, 58, 'bar')
-        this.workBar = new ProgressMeter(this, this.scale.width - 204, this.scale.height - 20, 200, 16)
+        this.workBar = new ProgressMeter(this, this.fb.x - 300, this.fb.y - 50, 600, 16)
         this.workBar.value = this.workProgress
         this.fb.value = this.focus
         this.label = this.add.text(0, this.scale.height, this.devText, { align: 'left' }).setOrigin(0, 1)
@@ -90,8 +92,13 @@ class BaseScene extends Phaser.Scene {
         this.anxBar.updateValue(this.anxiety)
 
         this.talkHud = this.add.image(0, (this.scale.height / 2) - 163, 'talk').setOrigin(0, 0)
-        this.tteTimer = new Talk(this, this.talkHud.x, this.talkHud.y, 1, 3, 500)
 
+        this.tteTimer = this.time.addEvent({
+            delay: 1000,
+            callback: this.talkEventWarn,
+            callbackScope: this,
+            loop: false
+        })
         // this.cteTimer = this.time.addEvent({
         //     delay: 1000,
         //     callback: this.clickTimeEvent,
@@ -100,6 +107,22 @@ class BaseScene extends Phaser.Scene {
         // })
     }
 
+    talkEventWarn() {
+        this.talkHud.setTexture('talk-warn')
+        this.time.delayedCall(1000, this.talkEvent, [], this)
+    }
+
+    talkEvent() {
+        this.talkHud.setTexture('talk')
+        this.tte = new Talk(this, this.talkHud.x, this.talkHud.y, 1, 3, 500)
+        this.tteTimer.remove(false)
+        this.tteTimer = this.time.addEvent({
+            delay: 10000,
+            callback: this.talkEventWarn,
+            callbackScope: this,
+            loop: false
+        })
+    }
     // clickTimeEvent() {
     //     this.cteTarget = new Phaser.GameObjects.Image(this, 300 + (Math.random() * (this.scale.width - 600)), 200 + (Math.random() * (this.scale.height - 400)), 'target').setOrigin(0.5, 0.5)
     //     this.cteTarget.setInteractive()

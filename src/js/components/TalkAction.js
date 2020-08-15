@@ -96,7 +96,7 @@ class Talk {
         }
 
         this.timer = scene.time.addEvent({
-            delay: speed + 2000,
+            delay: speed,
             callback: this.say,
             callbackScope: this,
             loop: false
