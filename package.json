@@ -15,16 +15,21 @@
     "report-js": "eslint src/**/*.js -f compact -o dist/report/eslint.txt",
     "report-lh": "lighthouse http://127.0.0.1:8000/ --output html --output-path dist/report/lighthouse.html",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "images": "gulp images"
+    "images": "gulp images",
+    "flow": "flow"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@babel/cli": "^7.10.5",
     "@babel/core": "^7.11.1",
     "@babel/plugin-transform-classes": "^7.10.4",
+    "@babel/plugin-transform-flow-strip-types": "^7.10.4",
     "@babel/preset-env": "^7.11.0",
+    "@babel/preset-flow": "^7.10.4",
     "@babel/register": "^7.10.5",
     "autoprefixer": "^9.8.6",
+    "babel-eslint": "^10.1.0",
     "babelify": "^10.0.0",
     "browser-sync": "^2.26.12",
     "browserify": "^16.5.2",
@@ -32,6 +37,8 @@
     "del": "^5.1.0",
     "dotenv": "^8.2.0",
     "eslint": "^7.6.0",
+    "eslint-plugin-flowtype": "^5.2.0",
+    "flow-bin": "^0.131.0",
     "gulp": "^4.0.2",
     "gulp-filenames": "^4.0.1",
     "gulp-imagemin": "^7.1.0",
@@ -57,7 +64,8 @@
   },
   "babel": {
     "plugins": [
-      "@babel/plugin-transform-classes"
+      "@babel/plugin-transform-classes",
+      "@babel/plugin-transform-flow-strip-types"
     ],
     "presets": [
       [
@@ -70,12 +78,16 @@
             ]
           },
           "useBuiltIns": "usage"
-        }
+        },
+        "@babel/preset-flow"
       ]
     ]
   },
   "eslintConfig": {
-    "extends": "eslint:recommended",
+    "extends": [
+      "eslint:recommended",
+      "plugin:flowtype/recommended"
+    ],
     "globals": {
       "WEBGL_RENDERER": true,
       "CANVAS_RENDERER": true,
@@ -84,6 +96,14 @@
       "ActiveXObject": true,
       "FBInstant": true
     },
+    "settings": {
+      "flowtype": {
+        "onlyFilesWithFlowAnnotation": true
+      }
+    },
+    "plugins": [
+      "flowtype"
+    ],
     "parserOptions": {
       "ecmaVersion": 2018,
       "sourceType": "module",

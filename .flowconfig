@@ -1,0 +1,14 @@
+[ignore]
+.*/node_modules/**
+./gulpfile.babel.js
+
+[include]
+./src/js/**
+
+[libs]
+
+[lints]
+
+[options]
+
+[strict]
