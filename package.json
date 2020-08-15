@@ -78,8 +78,7 @@
             ]
           },
           "useBuiltIns": "usage"
-        },
-        "@babel/preset-flow"
+        }
       ]
     ]
   },

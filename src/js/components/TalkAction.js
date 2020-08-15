@@ -2,7 +2,7 @@ import ProgressMeter from './ProgressMeter'
 
 // @flow
 class Word extends Phaser.GameObjects.GameObject {
-    constructor(scene, x: number, y, key, talk, decay, trig) {
+    constructor(scene, x: number, y: number, key: string, talk: TalkAction, decay: number, trig: string) {
         super(scene, x, y, key)
         this.talk = talk
         this.x = x
