@@ -3,6 +3,5 @@
         "spacebar",
         "velomax"
     ],
-    "javascript.validate.enable": false,
-    "flowide.useCodeSnippetsOnFunctionSuggest": false
+    "javascript.validate.enable": false
 }
