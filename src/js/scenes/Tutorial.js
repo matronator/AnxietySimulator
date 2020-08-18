@@ -1,3 +1,4 @@
+/* eslint-disable spaced-comment */
 import FocusBar from './../components/FocusBar'
 
 class Tutorial extends Phaser.Scene {
@@ -6,18 +7,40 @@ class Tutorial extends Phaser.Scene {
         this.spacebar
         this.step = 0
         this.mainText
+        /* eslint-disable indent */
         this.strings = [
-            `Hi there! Welcome to Anxiety Simulator!`,
-            `The goal is to complete your assignment before the deadline.`,
-            `This is your Focus bar. It indicates your concentration on the assignment.`,
-            `You can control it by pressing 'Q' or 'E' on your keyboard.`,
-            `By pressing 'Q' you decrease your focus.`,
-            `Pressing 'E' will increase your focus`,
-            `You should try to keep the indicator in the middle for maximum productivity.`,
-            `Focus too little and you'll start procrastinating.`,
-            `But focus too much and you'll get stuck over-analyzing the tiniest details.`,
-            `By keeping the optimal level of concentration, you'll be most productive and work faster.`,
+/* - 01 - */`Hi there! Welcome to Anxiety Simulator!`,
+/* - 02 - */`The goal is to complete your assignment before the deadline.`,
+/* - 03 - */`This is your Focus bar. It indicates your concentration on the assignment.`,
+/* - 04 - */`You can control it by pressing 'Q' or 'E' on your keyboard.`,
+/* - 05 - */`By pressing 'Q' you decrease your focus.`,
+/* - 06 - */`Pressing 'E' will increase your focus`,
+/* - 07 - */`You should try to keep the indicator in the middle for maximum productivity.`,
+/* - 08 - */`Focus too little and you'll start procrastinating.`,
+/* - 09 - */`But focus too much and you'll get stuck over-analyzing the tiniest details.`,
+/* - 10 - */`By keeping the optimal level of concentration, you'll be most productive and work faster.`,
+/* - 11 - */`This is your Anxiety meter. Your anxiety levels are based on stress.`,
+/* - 12 - */`The more stressed you are, the more your anxiety increases. And the more anxiety you feel, the more your stress increases.`,
+/* - 13 - */`It's a vicious circle, I tell you, anxiety is no joke... Anyways, so better keep that anxiety and stress down.`,
+/* - 14 - */`By balancing your Focus bar in the middle, your anxiety will go down slowly. But have your productivity drop too low and your stress goes right back up.`,
+/* - 15 - */`But just balancing your focus to work would be too easy and that's not how it is in real life.`,
+/* - 16 - */`Throughout the day, you will have to face the most powerful enemy someone with social anxiety can have.`,
+/* - 17 - */`Social interactions! Dun dun duuuun...`,
+/* - 18 - */`Occasionally, people will come up to you for a quick chat. This is the part where you can let your productivity drop for a while to focus on the talk.`,
+/* - 19 - */`An indicator will warn you when someone is there to talk to you.`,
+/* - 20 - */`After they've opened up the dialog, you'll have to respond in a timely maner.`,
+/* - 21 - */`Several letters are going to appear one by one on the screen for a short time and you have to press the corresponding key on your keyboard, before the letter dissappear again.`,
+/* - 22 - */`If you press either the correct key or a wrong one, the letter will dissapear and another letter will appear shortly, depending on the time left on the previous letter.`,
+/* - 23 - */`If the time runs out on the current letter, it will dissapear and another one will appear immediately after.`,
+/* - 24 - */`You get points only for the letters that you hit the correct key on.`,
+/* - 25 - */`Think of the letters as you comming up with a response to say.`,
+/* - 26 - */`After a series of 3-5 letters, depending on how many letters you hit correctly, you will respond.`,
+/* - 27 - */`If you hit all the letters, your response will be well formed and appropriate and your anxiety levels drop down a bit.`,
+/* - 28 - */`The less letters you hit, the worse your response will be.`,
+/* - 29 - */`If you miss all the letters or hit all the wrong keys, your response will either be a word salad that makes little sense, or very inapropriate.`,
+/* - 30 - */`If that happens, you'll get embarassed, which causes you to stress about it, which increases your anxiety and Bob's your uncle.`
         ]
+        /* eslint-enable indent */
         this.qLabel
         this.eLabel
         this.qKey
