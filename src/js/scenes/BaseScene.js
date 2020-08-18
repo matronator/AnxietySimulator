@@ -3,14 +3,15 @@ import ProgressMeter from './../components/ProgressMeter'
 import AnxietyBar from './../components/AnxietyBar'
 import Clock from './../components/Clock'
 import Talk from './../components/TalkAction'
+import { CONVERSATIONS } from './../utils/Conversations'
 
 class BaseScene extends Phaser.Scene {
     constructor(config) {
         super(config)
         this.fb
-        this.accGainBase = 0.05
-        this.velomaxBase = 2
-        this.frictionBase = 0.97
+        this.accGainBase = 0.025
+        this.velomaxBase = 1.75
+        this.frictionBase = 0.96
         this.accGain = this.accGainBase
         this.velomax = this.velomaxBase
         this.friction = this.frictionBase
@@ -55,6 +56,8 @@ class BaseScene extends Phaser.Scene {
         this.tteTimer
         this.tte
         this.tteSuccess
+        this.currentTalk = 0
+        this.conversationLabel
     }
 
     preload() {
@@ -92,7 +95,14 @@ class BaseScene extends Phaser.Scene {
         this.anxBar.updateValue(this.anxiety)
 
         this.talkHud = this.add.image(0, (this.scale.height / 2) - 163, 'talk').setOrigin(0, 0)
-
+        this.conversationLabel = this.add.text(this.scale.width / 2, this.scale.height / 2, '', {
+            align: 'center',
+            wordWrap: {
+                width: this.scale.width - 400
+            },
+            fontSize: 16
+        }).setOrigin(0.5)
+        this.conversationLabel.setVisible(0)
         this.tteTimer = this.time.addEvent({
             delay: 1000,
             callback: this.talkEventWarn,
@@ -108,13 +118,35 @@ class BaseScene extends Phaser.Scene {
     }
 
     talkEventWarn() {
+        // this.currentTalk = Math.floor(Math.random() * (CONVERSATIONS.starters.length - 1))
+        this.currentTalk = this.currentTalk < CONVERSATIONS.starters.length - 1 ? this.currentTalk + 1 : 0
+        this.conversationLabel.setText(CONVERSATIONS.starters[this.currentTalk])
+        this.conversationLabel.setVisible(1)
         this.talkHud.setTexture('talk-warn')
-        this.time.delayedCall(1000, this.talkEvent, [], this)
+        this.time.delayedCall(2000, this.talkEvent, [], this)
     }
 
     talkEvent() {
         this.talkHud.setTexture('talk')
         this.tte = new Talk(this, this.talkHud.x, this.talkHud.y, 1, 3, 500)
+    }
+
+    talkingDone(anx, success) {
+        if (anx > 0) {
+            this.anxiety = this.anxBar.more(anx)
+            this.conversationLabel.setText(CONVERSATIONS.answers.bad[this.currentTalk])
+        } else if (anx < 0) {
+            this.anxiety = this.anxBar.less(-anx)
+            this.conversationLabel.setText(CONVERSATIONS.answers.good[this.currentTalk])
+        } else {
+            this.conversationLabel.setText(CONVERSATIONS.answers.neutral[this.currentTalk])
+        }
+        this.tteSuccess = this.add.text(this.talkHud.width, this.talkHud.y + 201, `${success}%`, { fontSize: 32, align: 'left' })
+        this.time.delayedCall(2000, () => {
+            this.tteSuccess.setVisible(0)
+            this.conversationLabel.setVisible(0)
+        }, [], this)
+
         this.tteTimer.remove(false)
         this.tteTimer = this.time.addEvent({
             delay: 10000,
@@ -123,6 +155,7 @@ class BaseScene extends Phaser.Scene {
             loop: false
         })
     }
+
     // clickTimeEvent() {
     //     this.cteTarget = new Phaser.GameObjects.Image(this, 300 + (Math.random() * (this.scale.width - 600)), 200 + (Math.random() * (this.scale.height - 400)), 'target').setOrigin(0.5, 0.5)
     //     this.cteTarget.setInteractive()
@@ -159,18 +192,6 @@ class BaseScene extends Phaser.Scene {
         this.checkInputs()
         this.updateFocus()
         this.updateDevTools()
-    }
-
-    talkingDone(anx, success) {
-        if (anx >= 0) {
-            this.anxiety = this.anxBar.more(anx)
-        } else {
-            this.anxiety = this.anxBar.less(-anx)
-        }
-        this.tteSuccess = this.add.text(this.talkHud.width, this.talkHud.y + 201, `${success}%`, { fontSize: 32, align: 'left' })
-        this.time.delayedCall(2000, () => {
-            this.tteSuccess.setVisible(0)
-        }, [], this)
     }
 
     checkInputs() {
