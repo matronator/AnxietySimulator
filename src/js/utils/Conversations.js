@@ -1,6 +1,6 @@
 const CONVERSATIONS = {
     starters: [
-        `Hey! What's up bro?`,
+        `So how did you enjoy your vacation?`,
         `This project is going to be the end of me!`,
         `Everything okay? You seem a little twitchy today.`,
         `Hey man, how you doing today? All good?`,
@@ -8,24 +8,24 @@ const CONVERSATIONS = {
     ],
     answers: {
         good: [
-            `Sup`,
+            `It was great, I really needed a break from all the stress.`,
             `Yeah, I know right? Ugh!`,
             `Yeah, just a little nervous before deadline. Thanks for asking!`,
             `So far so good. How about you?`,
             `Hi!`
         ],
         neutral: [
-            `Hey! Not much.`,
+            `Pretty good, thanks.`,
             `Is it really though?`,
             `Me? Sure, why wouldn't I be?`,
-            `All good in the neighborhood!`,
-            `Pretty good.`
+            `Yup.`,
+            `How indeed...`
         ],
         bad: [
-            `What. What's up? Up where?`,
-            `I also ended one time. Just end project. What? Uhm...`,
-            `What? No! ME?? No way! You're twitchy!`,
-            `Hi, yeah! Good weather, what about yours?`,
+            `Vacation? Yeah, I was... Uhm... Great talk! Okay.`,
+            `Or not. Maybe? Err... What were we talking about?`,
+            `What? No! Cool. Umm... Yeah...`,
+            `Thanks, nice one... Wait, what did you say?`,
             `Hello, thanks, you too!`
         ]
     }

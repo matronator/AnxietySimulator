@@ -24,12 +24,12 @@
     "@babel/cli": "^7.10.5",
     "@babel/core": "^7.11.1",
     "@babel/plugin-transform-classes": "^7.10.4",
-    "@babel/plugin-transform-flow-strip-types": "^7.10.4",
     "@babel/preset-env": "^7.11.0",
     "@babel/preset-flow": "^7.10.4",
     "@babel/register": "^7.10.5",
     "autoprefixer": "^9.8.6",
     "babel-eslint": "^10.1.0",
+    "babel-plugin-transform-class-properties": "^6.24.1",
     "babelify": "^10.0.0",
     "browser-sync": "^2.26.12",
     "browserify": "^16.5.2",
@@ -64,8 +64,9 @@
   },
   "babel": {
     "plugins": [
-      "@babel/plugin-transform-classes",
-      "@babel/plugin-transform-flow-strip-types"
+      "@babel/plugin-transform-flow-strip-types",
+      "@babel/plugin-proposal-class-properties",
+      "@babel/plugin-transform-classes"
     ],
     "presets": [
       [
@@ -445,6 +446,8 @@
     }
   },
   "dependencies": {
+    "@babel/plugin-proposal-class-properties": "^7.10.4",
+    "@babel/plugin-transform-flow-strip-types": "^7.10.4",
     "@babel/polyfill": "^7.10.4",
     "autosize": "^4.0.2",
     "basiclightbox": "^5.0.3",

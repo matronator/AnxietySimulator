@@ -44,6 +44,7 @@ class BaseScene extends Phaser.Scene {
 
         this.anxBar
         this.anxiety = 10
+        this.deadlineAnx = 0
 
         this.keyQ
         this.keyE
@@ -104,7 +105,7 @@ class BaseScene extends Phaser.Scene {
         }).setOrigin(0.5)
         this.conversationLabel.setVisible(0)
         this.tteTimer = this.time.addEvent({
-            delay: 1000,
+            delay: 10000,
             callback: this.talkEventWarn,
             callbackScope: this,
             loop: false
@@ -123,12 +124,12 @@ class BaseScene extends Phaser.Scene {
         this.conversationLabel.setText(CONVERSATIONS.starters[this.currentTalk])
         this.conversationLabel.setVisible(1)
         this.talkHud.setTexture('talk-warn')
-        this.time.delayedCall(2000, this.talkEvent, [], this)
+        this.time.delayedCall(3000, this.talkEvent, [], this)
     }
 
     talkEvent() {
         this.talkHud.setTexture('talk')
-        this.tte = new Talk(this, this.talkHud.x, this.talkHud.y, 1, 3, 500)
+        this.tte = new Talk(this, this.talkHud.x, this.talkHud.y, 1, 3, 400)
     }
 
     talkingDone(anx, success) {
@@ -142,7 +143,7 @@ class BaseScene extends Phaser.Scene {
             this.conversationLabel.setText(CONVERSATIONS.answers.neutral[this.currentTalk])
         }
         this.tteSuccess = this.add.text(this.talkHud.width, this.talkHud.y + 201, `${success}%`, { fontSize: 32, align: 'left' })
-        this.time.delayedCall(2000, () => {
+        this.time.delayedCall(4000, () => {
             this.tteSuccess.setVisible(0)
             this.conversationLabel.setVisible(0)
         }, [], this)
@@ -260,6 +261,12 @@ class BaseScene extends Phaser.Scene {
         this.velomax = Math.max(0.15, 2.1 - (Math.abs(this.focus * 2) / 50))
         this.accGain = 0.015 - (Math.abs(this.focus * 2) / 10000)
         this.workTimer.timeScale = this.fb.productivity / 100
+    }
+
+    updateAnxiety() {
+        if (this.clock.timeSince > 180) {
+            this.deadlineAnx = 360
+        }
     }
 
     productivityLow() {

@@ -4,6 +4,8 @@ class Clock {
         this.y = y
         this.timeClock = time
         this.clockText = `${this.timeClock.h}:${this.timeClock.m <= 9 ? '0' : ''}${this.timeClock.m}`
+        this.realTime = (time.h * 60) + time.m
+        this.timeSince = 0
         this.gameTime
         this.clock = scene.add.text(this.x, this.y, this.clockText, style).setOrigin(1, 0)
         this.height = this.clock.height
@@ -19,6 +21,8 @@ class Clock {
     }
 
     tick() {
+        this.realTime++
+        this.timeSince++
         if (this.timeClock.m < 59) {
             this.timeClock.m++
         } else {

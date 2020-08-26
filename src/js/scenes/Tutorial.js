@@ -1,5 +1,6 @@
 /* eslint-disable spaced-comment */
 import FocusBar from './../components/FocusBar'
+import AnxietyBar from './../components/AnxietyBar'
 
 class Tutorial extends Phaser.Scene {
     constructor() {
@@ -19,10 +20,9 @@ class Tutorial extends Phaser.Scene {
 /* - 08 - */`Focus too little and you'll start procrastinating.`,
 /* - 09 - */`But focus too much and you'll get stuck over-analyzing the tiniest details.`,
 /* - 10 - */`By keeping the optimal level of concentration, you'll be most productive and work faster.`,
-/* - 11 - */`This is your Anxiety meter. Your anxiety levels are based on stress.`,
-/* - 12 - */`The more stressed you are, the more your anxiety increases. And the more anxiety you feel, the more your stress increases.`,
-/* - 13 - */`It's a vicious circle, I tell you, anxiety is no joke... Anyways, so better keep that anxiety and stress down.`,
-/* - 14 - */`By balancing your Focus bar in the middle, your anxiety will go down slowly. But have your productivity drop too low and your stress goes right back up.`,
+/* - 11 - */`This is your Anxiety bar. It meassures your stress.`,
+/* - 12 - */`The more stressed you are, the more your anxiety increases. As your anxiety increases, it will get more dificult to control your focus or react to tasks.`,
+/* - 13 - */`By balancing your Focus bar in the middle, your anxiety will go down slowly. But have your productivity drop too low and your stress goes right back up.`,
 /* - 15 - */`But just balancing your focus to work would be too easy and that's not how it is in real life.`,
 /* - 16 - */`Throughout the day, you will have to face the most powerful enemy someone with social anxiety can have.`,
 /* - 17 - */`Social interactions! Dun dun duuuun...`,
@@ -54,6 +54,10 @@ class Tutorial extends Phaser.Scene {
 
         this.canContinue = true
         this.canContinueLabel
+
+        this.anxBar
+        this.anxiety = 10
+        this.deadlineAnx = 0
     }
 
     preload() {
@@ -83,6 +87,9 @@ class Tutorial extends Phaser.Scene {
             this.eLabel.setVisible(1)
         } else if (this.step === 6 || this.step === 9) {
             this.eLabel.setVisible(0)
+        } else if (this.step === 10) {
+            this.anxBar = new AnxietyBar(this, 4, 24, 100, 16)
+            this.anxBar.updateValue(this.anxiety)
         }
     }
 
@@ -93,9 +100,9 @@ class Tutorial extends Phaser.Scene {
             this.canContinueLabel.setText(``)
         }
         if (Phaser.Input.Keyboard.JustDown(this.spacebar)) {
-            if (this.canContinue && this.step < 9) {
+            if (this.canContinue && this.step < 28) {
                 this.continue()
-            } else if (this.step === 9) {
+            } else if (this.step === 28) {
                 this.scene.start(`Level1`)
             }
         }
@@ -150,6 +157,7 @@ class Tutorial extends Phaser.Scene {
                 this.canContinue = true
             }
         } else if (this.step === 9) {
+            this.canContinue = true
             this.balanceFocus(0.1, 5)
             this.velocity += this.acceleration
             this.velocity *= 0.97
@@ -162,6 +170,28 @@ class Tutorial extends Phaser.Scene {
                 this.focus = this.fb.more(Math.abs(this.velocity))
             } else {
                 this.focus = this.fb.less(Math.abs(this.velocity))
+            }
+        } else if (this.step === 10) {
+            this.canContinue = true
+        } else if (this.step === 11) {
+            if (this.anxiety < 100) {
+                this.canContinue = false
+                this.anxiety = this.anxBar.more(0.3)
+                this.balanceFocus(this.anxiety, this.anxiety / 2)
+                this.velocity += this.acceleration
+                this.velocity *= 0.98
+                if (this.velocity < -0.5 - (this.anxiety / 75)) {
+                    this.velocity = -0.5 - (this.anxiety / 75)
+                } else if (this.velocity > 0.5 + (this.anxiety / 75)) {
+                    this.velocity = 0.5 + (this.anxiety / 75)
+                }
+                if (this.velocity >= 0) {
+                    this.focus = this.fb.more(Math.abs(this.velocity))
+                } else {
+                    this.focus = this.fb.less(Math.abs(this.velocity))
+                }
+            } else {
+                this.canContinue = true
             }
         }
     }
