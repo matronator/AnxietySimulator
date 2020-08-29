@@ -22,10 +22,10 @@ const CONVERSATIONS = {
             `How indeed...`
         ],
         bad: [
-            `Vacation? Yeah, I was... Uhm... Great talk! Okay.`,
-            `Or not. Maybe? Err... What were we talking about?`,
-            `What? No! Cool. Umm... Yeah...`,
-            `Thanks, nice one... Wait, what did you say?`,
+            `Yeah, I was... Uhm... Yeah.`,
+            `Or not. Maybe? Whatever.`,
+            `What?! Cool. Umm... Me cool.`,
+            `... Uhm... Good talk!`,
             `Hello, thanks, you too!`
         ]
     }

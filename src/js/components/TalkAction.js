@@ -10,11 +10,11 @@ class Word extends Phaser.GameObjects.GameObject {
         this.y = y
         this.decay = decay
         this.trigLbl = trig
-        this.trig = scene.input.keyboard.addKey(trig)
+        this.trig = scene.mainScene.input.keyboard.addKey(trig)
         this.missTrig = []
-        // missTrig.forEach(el => {
-        //     this.missTrig.push(scene.input.keyboard.addKey(el))
-        // })
+        missTrig.forEach(el => {
+            this.missTrig.push(scene.mainScene.input.keyboard.addKey(el))
+        })
         this.noMorePress = false
         this.life = decay / 5
         this.gfx = new ProgressMeter(this.scene, this.x - 25, this.y + 32, 50, 10, true)
@@ -49,15 +49,15 @@ class Word extends Phaser.GameObjects.GameObject {
             this.destroy()
             return
         }
-        // if (Utils.anyKeyDown(this.missTrig) && this.noMorePress === false) {
-        //     this.noMorePress = true
-        //     this.missTrig = []
-        //     this.lbl.destroy()
-        //     this.gfx.remove()
-        //     this.talk.talkFail(this.life)
-        //     this.destroy()
-        //     return
-        // }
+        if (Utils.anyKeyDown(this.missTrig) && this.noMorePress === false) {
+            this.noMorePress = true
+            this.missTrig = []
+            this.lbl.destroy()
+            this.gfx.remove()
+            this.talk.talkFail(this.life)
+            this.destroy()
+            return
+        }
     }
 }
 
@@ -132,6 +132,7 @@ class Talk {
     }
 
     talkFail(val: number): void {
+        this.scene.cameras.main.shake(100, 0.01)
         this.hitsTotal++
         if (this.hitsTotal === this.hitsMax) {
             this.timer.remove(false)
