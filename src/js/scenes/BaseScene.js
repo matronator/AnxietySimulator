@@ -42,6 +42,18 @@ class BaseScene extends Phaser.Scene {
         this.cteBar
 
         this.ui
+        this.talkScene
+
+        this.shaking = {
+            intensity: 0,
+            offsetMax: 1,
+            offsetX: 0,
+            offsetY: 0,
+            veloX: 0,
+            veloY: 0
+        }
+        this.isShaking = false
+        this.shakeTimer
     }
 
     preload() {
@@ -181,7 +193,32 @@ class BaseScene extends Phaser.Scene {
         } else {
             this.anxLock = false
         }
+        this.shakeCam()
+        if (this.anxiety > 50) {
+            this.isShaking = true
+        } else {
+            this.isShaking = false
+        }
         // this.cameras.main.shake(1000, 0.01)
+    }
+
+    shakeCam() {
+        if (this.isShaking) {
+            this.shaking.offsetMax = (this.anxiety - 50) / 8000
+            // this.shaking.intensity = this.anxiety * 5
+            this.shaking.intensity = 100
+            this.shaking.offsetX = this.shaking.offsetX <= 0 ? Math.random() * this.shaking.offsetMax : Math.random() * -this.shaking.offsetMax
+            this.shaking.offsetY = this.shaking.offsetY <= 0 ? Math.random() * this.shaking.offsetMax : Math.random() * -this.shaking.offsetMax
+            this.cameras.main.shake(this.shaking.intensity, this.shaking.offsetMax)
+            this.talkScene.cameras.main.shake(this.shaking.intensity, this.shaking.offsetMax)
+            // this.cameras.main.setScroll(this.shaking.offsetX, this.shaking.offsetY)
+            // this.talkScene.cameras.main.setScroll(this.shaking.offsetX, this.shaking.offsetY)
+        } else {
+            this.cameras.main.removeAllListeners()
+            this.talkScene.cameras.main.removeAllListeners()
+            // this.cameras.main.setScroll(0, 0)
+            // this.talkScene.cameras.main.setScroll(0, 0)
+        }
     }
 }
 

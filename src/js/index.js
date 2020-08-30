@@ -4,9 +4,10 @@ import MenuScene from './scenes/MenuScene'
 import Tutorial from './scenes/Tutorial'
 
 const config = {
-    type: Phaser.AUTO,
+    type: Phaser.WEBGL,
     width: 1920,
     height: 1280,
+    pixelArt: true,
     scale: {
         mode: Phaser.Scale.RESIZE,
         autoCenter: Phaser.Scale.CENTER_HORIZONTALLY
