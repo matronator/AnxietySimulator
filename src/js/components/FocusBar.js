@@ -1,5 +1,5 @@
 class FocusBar {
-    constructor(scene, x, y, width, height, image) {
+    constructor(scene, x, y, width, height) {
         this.bar = new Phaser.GameObjects.Graphics(scene)
 
         this.x = x
@@ -11,8 +11,14 @@ class FocusBar {
         this.p = (this.width - 4) / 100
         this.p2 = (this.width - 4) / -50
 
+        // scene.add.image(this.x, this.y + (this.height / 2) + 5, image)
+        this.img = new Phaser.GameObjects.Image(scene, this.x, this.y + (this.height / 2) - 20, `bar`)
+        this.img.setScale(10, 10)
+        scene.add.existing(this.img)
         scene.add.existing(this.bar)
-        scene.add.image(this.x, this.y + (this.height / 2) + 5, image)
+        this.frameImg = new Phaser.GameObjects.Image(scene, this.x, this.y + (this.height / 2) - 20, `bar-frame`)
+        this.frameImg.setScale(10, 10)
+        scene.add.existing(this.frameImg)
         this.label = scene.add.text(this.x, this.y + this.height + 32, `Productivity: ${this.productivity}%`, { align: 'center' }).setOrigin(0.5)
 
         this.draw()
@@ -45,9 +51,11 @@ class FocusBar {
         this.bar.clear()
 
         //  BG
-        this.bar.fillStyle(0xdedede)
-        this.bar.fillRect(this.x - (this.width / 2), this.y, this.width, this.height)
+        // this.bar.fillStyle(0xdedede)
+        // this.bar.setAlpha(0.2)
+        // this.bar.fillRect(this.x - (this.width / 2), this.y, this.width, this.height)
 
+        // this.bar.setAlpha(1)
         const hue = (360 - (Math.abs(this.value) - 70)) / 360
         this.bar.fillStyle(Phaser.Display.Color.HSLToColor(hue, 1, 0.5).color)
 

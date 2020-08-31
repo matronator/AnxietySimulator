@@ -23,22 +23,23 @@ class Tutorial extends Phaser.Scene {
 /* - 11 - */`This is your Anxiety bar. It meassures your stress.`,
 /* - 12 - */`The more stressed you are, the more your anxiety increases. As your anxiety increases, it will get more dificult to control your focus or react to tasks.`,
 /* - 13 - */`By balancing your Focus bar in the middle, your anxiety will go down slowly. But have your productivity drop too low and your stress goes right back up.`,
-/* - 15 - */`But just balancing your focus to work would be too easy and that's not how it is in real life.`,
-/* - 16 - */`Throughout the day, you will have to face the most powerful enemy someone with social anxiety can have.`,
-/* - 17 - */`Social interactions! Dun dun duuuun...`,
-/* - 18 - */`Occasionally, people will come up to you for a quick chat. This is the part where you can let your productivity drop for a while to focus on the talk.`,
-/* - 19 - */`An indicator will warn you when someone is there to talk to you.`,
-/* - 20 - */`After they've opened up the dialog, you'll have to respond in a timely maner.`,
-/* - 21 - */`Several letters are going to appear one by one on the screen for a short time and you have to press the corresponding key on your keyboard, before the letter dissappear again.`,
-/* - 22 - */`If you press either the correct key or a wrong one, the letter will dissapear and another letter will appear shortly, depending on the time left on the previous letter.`,
-/* - 23 - */`If the time runs out on the current letter, it will dissapear and another one will appear immediately after.`,
-/* - 24 - */`You get points only for the letters that you hit the correct key on.`,
-/* - 25 - */`Think of the letters as you comming up with a response to say.`,
-/* - 26 - */`After a series of 3-5 letters, depending on how many letters you hit correctly, you will respond.`,
-/* - 27 - */`If you hit all the letters, your response will be well formed and appropriate and your anxiety levels drop down a bit.`,
-/* - 28 - */`The less letters you hit, the worse your response will be.`,
-/* - 29 - */`If you miss all the letters or hit all the wrong keys, your response will either be a word salad that makes little sense, or very inapropriate.`,
-/* - 30 - */`If that happens, you'll get embarassed, which causes you to stress about it, which increases your anxiety and Bob's your uncle.`
+/* - 14 - */`Now let's talk about social interactions.`,
+/* - 15 - */`Throughout the day, people will come up to you for a quick chat.`,
+/* - 16 - */`This is the part where you can let your productivity drop for a while to focus on the talk.`,
+/* - 17 - */`An indicator will warn you when someone is there to talk to you.`,
+/* - 18 - */`After they've opened up the dialog, you'll have to respond in a timely maner.`,
+/* - 19 - */`You'll have to think about a proper response and form a coherent sentence. This is represented as a reaction mini-game.`,
+/* - 20 - */`Several letters are going to appear one by one on the screen for a short time and you have to press the corresponding key on your keyboard, before the letter dissappears again.`,
+/* - 21 - */`You form your answer by hitting the correct key on your keyboard, based on the letter shown on screen.`,
+/* - 22 - */`If you hit the wrong key, or hit it too late, you break your train of thoughts and make a mistake in your response.`,
+/* - 23 - */`Hit all the keys and you'll answer with a perfect response.`,
+/* - 24 - */`But if you get all the letters wrong, you'll say the first thing that come to mind, without structure and making little sense.`,
+/* - 25 - */`If you get the perfect answer, you'll gain confidence and your anxiety drops a bit.`,
+/* - 26 - */`But speak some non-sense and you'll get embarassed and your anxiety will increase.`,
+/* - 27 - */`Next up is coordination. When you have anxiety disorder, you watch your every step and are conscious about every little movement you make.`,
+/* - 28 - */`Every move has to feel perfect, otherwise you'll start worrying about looking like an idiot, putting more stress on you making it more likely you'll actually look like an idiot...`,
+/* - 29 - */`There will be moments, where someone asks you to hand them something or take something from them.`,
+/* - 29 - */`When that happens, you'll have to make sure you execute your movements flawlessly.`
         ]
         /* eslint-enable indent */
         this.qLabel
@@ -62,6 +63,7 @@ class Tutorial extends Phaser.Scene {
 
     preload() {
         this.load.image('bar', 'src/images/bar.png')
+        this.load.image('bar-frame', 'src/images/bar-frame.png')
     }
 
     create() {
@@ -78,7 +80,7 @@ class Tutorial extends Phaser.Scene {
         this.step++
         this.mainText.setText(this.strings[this.step])
         if (this.step === 2) {
-            this.fb = new FocusBar(this, this.scale.width / 2, 100, 750, 58, 'bar')
+            this.fb = new FocusBar(this, this.scale.width / 2, 100, 750, 58)
         } else if (this.step === 4 || this.step === 7) {
             this.eLabel.setVisible(0)
             this.qLabel.setVisible(1)

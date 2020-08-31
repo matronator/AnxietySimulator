@@ -1,6 +1,7 @@
 import FocusBar from './../components/FocusBar'
 import BaseUI from './BaseScene/BaseUI'
 import BaseTalk from './BaseScene/BaseTalk'
+import BaseMoves from './BaseScene/BaseMoves'
 
 class BaseScene extends Phaser.Scene {
     constructor(config) {
@@ -37,12 +38,9 @@ class BaseScene extends Phaser.Scene {
         this.keyQ
         this.keyE
 
-        this.cteTimer
-        this.cteTarget
-        this.cteBar
-
         this.ui
         this.talkScene
+        this.moveScene
 
         this.shaking = {
             intensity: 0,
@@ -58,13 +56,14 @@ class BaseScene extends Phaser.Scene {
 
     preload() {
         this.load.image('bar', 'src/images/bar.png')
+        this.load.image('bar-frame', 'src/images/bar-frame.png')
         this.load.image('target', 'src/images/target.png')
         this.load.image('talk', 'src/images/talk.png')
         this.load.image('talk-warn', 'src/images/talk-danger.png')
     }
 
     create() {
-        this.fb = new FocusBar(this, this.scale.width / 2, 100, 750, 58, 'bar')
+        this.fb = new FocusBar(this, this.scale.width / 2, 100, 750, 58)
         this.fb.value = this.focus
         this.keyQ = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Q)
         this.keyE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.E)
@@ -77,46 +76,16 @@ class BaseScene extends Phaser.Scene {
         //     callbackScope: this,
         //     loop: false
         // })
-        // this.cteTimer = this.time.addEvent({
-        //     delay: 1000,
-        //     callback: this.clickTimeEvent,
-        //     callbackScope: this,
-        //     loop: false
-        // })
         this.ui = this.scene.add(`BaseUI`, BaseUI, true, {
             key: this.scene.key
         })
         this.talkScene = this.scene.add(`BaseTalk`, BaseTalk, true, {
             key: this.scene.key
         })
+        this.moveScene = this.scene.add(`BaseMoves`, BaseMoves, true, {
+            key: this.scene.key
+        })
     }
-
-    // clickTimeEvent() {
-    //     this.cteTarget = new Phaser.GameObjects.Image(this, 300 + (Math.random() * (this.scale.width - 600)), 200 + (Math.random() * (this.scale.height - 400)), 'target').setOrigin(0.5, 0.5)
-    //     this.cteTarget.setInteractive()
-    //     this.cteBar = new ProgressMeter(this, this.cteTarget.x - 50, this.cteTarget.y + (this.cteTarget.height / 2) + 20, 100, 10, true)
-    //     this.cteBar.clearLabel()
-    //     this.add.existing(this.cteTarget)
-    //     this.cteTimer.remove(false)
-    //     this.cteTimer = this.time.addEvent({
-    //         delay: 500,
-    //         callback: this.clickTimeDone,
-    //         callbackScope: this,
-    //         loop: false
-    //     })
-    // }
-
-    // clickTimeDone() {
-    //     this.cteTarget.setVisible(0)
-    //     this.cteBar.remove()
-    //     this.cteTimer.remove(false)
-    //     this.cteTimer = this.time.addEvent({
-    //         delay: 5000,
-    //         callback: this.clickTimeEvent,
-    //         callbackScope: this,
-    //         loop: false
-    //     })
-    // }
 
     update() {
         // if (this.constantVelo < 0) {
