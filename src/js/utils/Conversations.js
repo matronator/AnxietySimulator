@@ -23,7 +23,7 @@ const CONVERSATIONS = {
         ],
         bad: [
             `Yeah, I was... Uhm... Yeah.`,
-            `Or not. Maybe? Whatever.`,
+            `Oh yeah? Ehm... Whatever.`,
             `What?! Cool. Umm... Me cool.`,
             `... Uhm... Good talk!`,
             `Hello, thanks, you too!`

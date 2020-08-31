@@ -182,7 +182,9 @@ class BaseScene extends Phaser.Scene {
             this.focus = this.fb.less(Math.abs(this.velocity))
         }
         this.velomax = Math.max(0.15, 2.1 - (Math.abs(this.focus * 2) / 50))
+        this.velomax += this.anxiety / 150
         this.accGain = 0.015 - (Math.abs(this.focus * 2) / 10000)
+        this.accGain += this.anxiety / 1500
         this.ui.workTimer.timeScale = this.fb.productivity / 100
         if (this.fb.productivity <= 10) {
             this.anxiety = this.ui.anxBar.more(this.deadlineAnx)
