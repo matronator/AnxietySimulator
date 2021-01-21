@@ -34,7 +34,7 @@ class MenuScene extends Phaser.Scene {
                     music.destroy()
                     this.scene.start(`Tutorial`)
                 }, index: 0 },
-                { title: 'Main game', onClick: () => {
+                { title: 'Play Game', onClick: () => {
                     music.stop()
                     music.destroy()
                     this.scene.start(`Level1`)

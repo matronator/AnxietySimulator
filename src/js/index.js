@@ -3,6 +3,8 @@ import Level1 from './scenes/Level1'
 import MenuScene from './scenes/MenuScene'
 import Tutorial from './scenes/Tutorial'
 
+window.devMode = false
+
 const config = {
     type: Phaser.WEBGL,
     width: 1920,

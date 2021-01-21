@@ -1,22 +1,14 @@
-import FocusBar from './../components/FocusBar'
 import BaseUI from './BaseScene/BaseUI'
 import BaseTalk from './BaseScene/BaseTalk'
 import BaseMoves from './BaseScene/BaseMoves'
+import FocusControl from './../components/FocusControl'
+import MenuScene from './MenuScene'
+import Modal from '../components/Modal'
 
 class BaseScene extends Phaser.Scene {
     constructor(config) {
         super(config)
         this.fb
-        this.accGainBase = 0.025
-        this.velomaxBase = 1.75
-        this.frictionBase = 0.96
-        this.accGain = this.accGainBase
-        this.velomax = this.velomaxBase
-        this.friction = this.frictionBase
-        this.acceleration = -0.002
-        this.velocity = 0
-        this.focus = 0
-        this.constantVelo = 0
 
         this.workProgress = 0
         this.workDelay = 175
@@ -52,6 +44,8 @@ class BaseScene extends Phaser.Scene {
         }
         this.isShaking = false
         this.shakeTimer
+        this.dead = false
+        this.cheat
     }
 
     preload() {
@@ -63,11 +57,8 @@ class BaseScene extends Phaser.Scene {
     }
 
     create() {
-        this.fb = new FocusBar(this, this.scale.width / 2, 100, 750, 58)
-        this.fb.value = this.focus
-        this.keyQ = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Q)
-        this.keyE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.E)
-
+        this.fb = new FocusControl(this, this.scale.width / 2, 100, 'bar')
+        this.cheat = this.input.keyboard.addKey('Y')
         // this.deadline = new Clock(this, this.scale.width, this.clock.height + 3, true, this.deadlineTime, { fontSize: 24, color: 'red' })
 
         // this.madnessGenerator = this.time.addEvent({
@@ -82,9 +73,9 @@ class BaseScene extends Phaser.Scene {
         this.talkScene = this.scene.add(`BaseTalk`, BaseTalk, true, {
             key: this.scene.key
         })
-        this.moveScene = this.scene.add(`BaseMoves`, BaseMoves, true, {
-            key: this.scene.key
-        })
+        // this.moveScene = this.scene.add(`BaseMoves`, BaseMoves, true, {
+        //     key: this.scene.key
+        // })
     }
 
     update() {
@@ -93,24 +84,33 @@ class BaseScene extends Phaser.Scene {
         // } else if (this.constantVelo > 0) {
         //     this.fb.more(this.constantVelo)
         // }
-        this.checkInputs()
-        this.updateFocus()
-    }
-
-    checkInputs() {
-        if (this.keyQ.isDown) {
+        if (this.cheat.isDown) {
             // this.constantVelo = 0
-            if (this.acceleration < 0) {
-                this.acceleration -= this.accGain
-            } else {
-                this.acceleration = -0.03
-            }
-        } else if (this.keyE.isDown) {
-            // this.constantVelo = 0
-            if (this.acceleration > 0) {
-                this.acceleration += this.accGain
-            } else {
-                this.acceleration = 0.03
+            this.anxiety -= 0.1
+        }
+        if (this.anxiety < 100) {
+            this.updateFocus()
+        } else {
+            if (!this.dead) {
+                this.dead = true
+                this.isShaking = false
+                // this.ui.scene.stop()
+                // this.talkScene.scene.stop()
+                const gameOverPopup = new Modal(this, `You've had a panic breakdown and they had to take you to the psych ward. AKA Game Over!`, [
+                    { title: 'Play again', onClick: () => {
+                    //     this.scene.remove(`BaseTalk`)
+                    //     this.scene.remove(`BaseUI`)
+                    //     this.scene.remove(`BaseScene`)
+                        this.scene.restart()
+                    }, index: 0 },
+                    { title: 'Main game', onClick: () => {
+                        // this.scene.remove(`BaseTalk`)
+                        // this.scene.remove(`BaseUI`)
+                        this.game.scene.destroy()
+                        window.location.reload()
+                    }, index: 1 }
+                ])
+                this.add.existing(gameOverPopup)
             }
         }
     }
@@ -133,37 +133,6 @@ class BaseScene extends Phaser.Scene {
     // }
 
     updateFocus() {
-        if (this.acceleration < -0.4) {
-            this.acceleration = -0.4
-        } else if (this.acceleration > 0.4) {
-            this.acceleration = 0.4
-        }
-        this.velocity += this.acceleration
-        this.velocity *= this.friction
-        if (this.velocity < -this.velomax) {
-            this.velocity = -this.velomax
-        } else if (this.velocity > this.velomax) {
-            this.velocity = this.velomax
-        }
-        if (this.velocity >= 0) {
-            this.focus = this.fb.more(Math.abs(this.velocity))
-        } else {
-            this.focus = this.fb.less(Math.abs(this.velocity))
-        }
-        this.velomax = Math.max(0.15, 2.1 - (Math.abs(this.focus * 2) / 50))
-        this.velomax += this.anxiety / 150
-        this.accGain = 0.015 - (Math.abs(this.focus * 2) / 10000)
-        this.accGain += this.anxiety / 1500
-        this.ui.workTimer.timeScale = this.fb.productivity / 100
-        if (this.fb.productivity <= 10) {
-            this.anxiety = this.ui.anxBar.more(this.deadlineAnx)
-            this.anxLock = true
-        } else if (this.fb.productivity > 85) {
-            this.anxiety = this.ui.anxBar.less(0.02)
-            this.anxLock = false
-        } else {
-            this.anxLock = false
-        }
         this.shakeCam()
         if (this.anxiety > 50) {
             this.isShaking = true

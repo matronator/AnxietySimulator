@@ -1,3 +1,4 @@
+import Modal from '../../components/Modal'
 import AnxietyBar from './../../components/AnxietyBar'
 import Clock from './../../components/Clock'
 import ProgressMeter from './../../components/ProgressMeter'
@@ -25,13 +26,13 @@ class BaseUI extends Phaser.Scene {
     }
 
     create() {
-        this.devText = [
-            `Focus: ${this.mainScene.focus.toFixed(4)}`,
-            `Acceleration: ${this.mainScene.acceleration.toFixed(4)}`,
-            `Velocity: ${this.mainScene.velocity.toFixed(4)}`,
-            `VeloMax: ${this.mainScene.velomax.toFixed(4)}`,
-            `AccGain: ${this.mainScene.accGain.toFixed(4)}`
-        ]
+        // this.devText = [
+        //     `Focus: ${this.mainScene.fb.focus.toFixed(4)}`,
+        //     `Acceleration: ${this.mainScene.fb.acceleration.toFixed(4)}`,
+        //     `Velocity: ${this.mainScene.fb.velocity.toFixed(4)}`,
+        //     `VeloMax: ${this.mainScene.fb.velomax.toFixed(4)}`,
+        //     `AccGain: ${this.mainScene.fb.accGain.toFixed(4)}`
+        // ]
         this.clock = new Clock(this, this.scale.width, 0)
         this.label = this.add.text(0, this.scale.height, this.devText, { align: 'left' }).setOrigin(0, 1)
         this.anxBar = new AnxietyBar(this, 4, 24, 100, 16)
@@ -61,17 +62,17 @@ class BaseUI extends Phaser.Scene {
     }
 
     workAdd() {
-        this.mainScene.workProgress = this.workBar.more(0.1 + (0.1 / 100 * this.mainScene.fb.productivity))
+        this.mainScene.workProgress = this.workBar.more(0.1 + (0.1 / 100 * this.mainScene.fb.fb.productivity))
     }
 
     updateDevTools() {
-        this.devText = [
-            `Time  Since: ${this.clock.timeSince}`,
-            `WorkPrgress: ${this.mainScene.workProgress}`,
-            `Anx Trigger: ${this.mainScene.anxTrigger.toFixed(4)}`,
-            `DeadlineAnx: ${this.mainScene.deadlineAnx.toFixed(4)}`,
-            `AnxietyGain: ${this.mainScene.fb.productivity <= this.mainScene.anxTrigger ? 'true' : 'false'}`
-        ]
+        // this.devText = [
+        //     `Time  Since: ${this.clock.timeSince}`,
+        //     `WorkPrgress: ${this.mainScene.workProgress}`,
+        //     `Anx Trigger: ${this.mainScene.anxTrigger.toFixed(4)}`,
+        //     `DeadlineAnx: ${this.mainScene.deadlineAnx.toFixed(4)}`,
+        //     `AnxietyGain: ${this.mainScene.fb.fb.productivity <= this.mainScene.anxTrigger ? 'true' : 'false'}`
+        // ]
         this.label.setAlpha(1)
         this.label.setText(this.devText)
     }

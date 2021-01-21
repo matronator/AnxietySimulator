@@ -76,7 +76,7 @@ class Talk {
         this.successHits = 0
         this.hitsTotal = 0
         this.hitsMax = count
-        this.triggerKeys = ['A', 'S', 'D', 'F']
+        this.triggerKeys = ['T', 'F', 'G', 'H']
         this.letters = []
 
         if (difficulty >= 2) {

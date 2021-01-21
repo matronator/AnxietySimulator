@@ -12,7 +12,7 @@ import postcssImport from 'postcss-import' // css
 import postcssNesting from 'postcss-nesting' // css
 import postcssNano from 'cssnano' // css
 import postcssCustomMedia from 'postcss-custom-media' // css
-import postcssCustomProperties from 'postcss-custom-properties' // css
+// import postcssCustomProperties from 'postcss-custom-properties' // css
 import postcssCalc from 'postcss-calc' // css
 import postscssAutoprefixer from 'autoprefixer' // css
 import postcssMixins from 'postcss-mixins' // css
@@ -43,7 +43,7 @@ const cssProcessors = [
     postcssCalc, // https://github.com/postcss/postcss-calc
     postcssCustomMedia, // https://drafts.csswg.org/mediaqueries-5/#custom-mq
 ].concat(isProduction ? [ // enable additional processors on production (saves time on development)
-    postcssCustomProperties, // https://www.w3.org/TR/css-variables-1/
+    // postcssCustomProperties, // https://www.w3.org/TR/css-variables-1/
     postscssAutoprefixer({ browsers: ['last 2 versions', 'ie >= 11'] }), // same as babel,
     postcssNano,
 ] : [])

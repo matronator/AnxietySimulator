@@ -1,4 +1,5 @@
 import ProgressMeter from './../../components/ProgressMeter'
+import FocusControl from './../../components/FocusControl'
 
 class BaseMoves extends Phaser.Scene {
     constructor() {
